@@ -1,106 +1,186 @@
 <html>
 <head>
- <style type="text/css">
-/* <![CDATA[ */ 
-@import "http://www.tigris.org/branding/css/tigris.css"; 
-@import "http://www.tigris.org/branding/css/inst.css"; 
-/*  ]]> */
- </style>
-  <link rel="stylesheet" type="text/css" href="http://www.tigris.org/branding/css/print.css" media="print" />
-<script src="http://www.tigris.org/branding/scripts/tigris.js" type="text/javascript">
-</script>
- <title>Project Overview</title>
+<title>Delta</title>
 </head>
-<body>
+<body bgcolor=white>
 
-<p>This is the initial web content for your project.  Please customize
-this to fit your project.  You don't need to answer all these questions
-or follow this exact format, but we do like to see this kind of
-information before we approve projects for public viewing.
-</p>
+<p><b>Summary:</b> Delta assists you in minimizing "interesting" files
+subject to a test of their interestingness.  A common such situation
+is when attempting to isolate a small failure-inducing substring of a
+large input that causes your program to exhibit a bug.  Our
+implementation is based on the Delta Debugging algorithm found here:
+<a
+href=http://www.st.cs.uni-sb.de/dd/>http://www.st.cs.uni-sb.de/dd/</a>
 
-<p>Until your project is approved, only you can view it and work on
-it.
-</p>
+<p><b>Maintainer:</b> Daniel S. Wilkerson
+<br><b>Developers:</b> <a href="http://www.cs.berkeley.edu/~smcpeak/">Scott McPeak</a>
 
-<ul>
-<li>This index.html will be used if and only if you have the "Use
-Project Home Page" option checked on the "Administer Project" page
-(click the "Admin" tab).</li>
+<p>This work was supported by professors
+<a href=http://theory.stanford.edu/~aiken/>Alex Aiken</a>
+and <a href=http://www.cs.berkeley.edu/~necula/>George Necula</a>
+and was done at UC Berkeley.
 
-<li>To edit this file, check out your project via CVS and edit www/index.html.
-
-<li>You can 'cvs add' and commit other files under the project's "www"
-directory and they will published to your project web site.</li>
-
-<li>Also, consider starting a thread in the "dev" mailing list to get
-these discussion started.  A good one is an "introduction" thread where
-people post messages about themselves and their interest in the
-project.</li>
-
-<li>You can add a "Highlights:" line to the top of all web pages by adding a file www/project_highlights.html </li>
-</ul>
-
-
-<h3>Mission</h3>
-
-<p>What is the goal of this project?
-</p>
-
-<p>What is the scope of this project?
-</p>
-
-<p>For example:</p>
+<p>Here are the current releases.  Feel free to just get the current
+Subversion repository version as a guest user.
 
 <ul>
-<li>Develop just enough functionality to scratch a particular itch</li>
-<li>Build a tool just like XYZ, but less broken</li>
-<li>Build the best XYZ-tool ever!</li>
+
+<li><a
+href="http://delta.tigris.org/fixme">delta-fixme</a> &nbsp; md5:
+<code>
+fixme
+</code>
+
+<li>The first release of Delta was on 14 July 2003.  It is now
+retired.
+
 </ul>
 
+<h2>Introduction</h2>
 
-<p>What are high-level features you are sure to build?
-</p>
-<ul>
+The best way to understand how to use delta is with an example of its
+usage.  Below is one helpfully written up for me by Simon Goldsmith.
+For those wanting more, I also wrote a more detailed document
+describing each tool: <a href=using_delta.html>Using Delta</a>.
 
-<li>What would you write on a billboard about your project? Users
-might only look for a few seconds.</li>
+<p>Note that what follows is an example of using delta to minimize an
+input file to a program that reads programs, much as a compiler does.
+Note two features of file minimization that are present in the
+example.
 
-<li>Use the issue tracker to track features and enhancement
-requests. It is not just for bugs, pre-populate it with feature
-descriptions so that potential contributors know what you would like them
-to work on.</li>
-</ul>
+<p><b>Do a controlled experiment.</b> Below we don't just minimize a file
+that causes Oink to produce an error message, we minimize a file that
+causes gcc to accept AND oink to reject in a specific way.  That is,
+the test delta does is a controlled experiment, where gcc is the
+control.  Ignoring this aspect of the problem seems to be a frequent
+mistake of first time users.
 
-<p>What are the high-level assumptions or ground rules for the project?
-</p>
+<p><b>Exploit nested structure.</b>  One may minimize files of simpler
+syntax than C++ but really all files are interesting in the first
+place because they are in some language or another.  Some simple
+configuration files are literally just a list of lines but most
+languages have some nested structure.  Multidelta filters the input
+through the topformflat utility (included) to suppress any newlines
+past a particular nesting depth; this "explains" the nesting structure
+to the otherwise line-oriented delta utility (a brilliantly simple
+idea of Scott McPeak's).  If your input file language has no nesting
+structure, you can hack on multidelta to remove the filtration
+through topformflat or just use the raw delta program.  If your
+language has a different nesting structure than C/C++, you can write
+your own multidelta and substitute it.  A simple flex program should
+suffice; it need not be terribly accurate for delta to do well.
 
-<p>For example:
-</p>
+<p>Note also that this example is edited for simplicity from the raw
+output; we sincerely hope we did not introduce any bugs.
 
-<ul>
-<li> we will use programming language X on operating system Y for now.
+<h3>Using multidelta to turn an interesting file into a smaller interesting file</h3>
 
-<li>We will, or will not, consider certain functional areas like
-internationalization, high security, concurrency, etc.  The list of
-functional areas will depend on what you are trying to do.
+<p>Simon Goldsmith 8 April / 12 Sept, 2005.
 
-<li>Try to keep this part short.
-</ul>
+<p>(1) Make a new directory and copy the file there.
+<pre>
+% mkdir deltaexample
+% cd deltaexample/
+% cp ../nsCSSDataBlock/orig/nsCSSDataBlock-23801-1112390043.cpp.g.ii ./foo.ii
+% chmod +w foo.ii
+</pre>
 
+<p>(2) (optional) Put a read-only backup copy of the file in, say, orig/ .
+<pre>
+% mkdir orig
+% cp foo.i orig/
+% chmod -R a-w orig
+</pre>
 
-<h3>Related resources</h3>
+<p>(3) Write a script (do not call it 'test' as that is a system
+utility program) to test the interestingness of the file, as we do
+below.
 
-<ul>
-<li>Link to other stuff that you know about.  It will help you
-research requirements and provide a useful resource to potential
-contributors.</li>
+<p>Note that for this example, "interesting" means the file passes gcc
+but fails oink with a particular error message.  That is, if 1) gcc
+accepts, and 2) oink rejects with the desired error message, then we
+return zero (meaning "interesting").  If anything else happens then we
+return a nonzero exit code (meaning "not interesting")
 
-<li>Why reinvent the wheel? What is better about this wheel?  Is there
-any existing project that you can partner with or reuse?</li>
+<p>Some reminders about shell: a zero exit code means "true"; so for
+the purposes of &&, a zero exit code means "keep going" and grep
+returns 0 if it matches, nonzero if not.  We redirect output to
+/dev/null because the output of delta is noisy.  Be careful of quoting
+hell: notice that we've used '.' to match characters like single
+quote.
 
-<li>Where would you go to try to find potential contibutors?</li>
-</ul>
+<pre>
+% cat > test1.sh
+#!/bin/bash
+
+FILE=foo.ii
+OINK=/home/simon/oink_all/oink/oink
+GCC=/usr/bin/gcc
+
+$GCC -c $FILE -o /dev/null &> /dev/null && $OINK $FILE | grep 'error: cannot convert argument type .class .* const &. to receiver parameter type' &> /dev/null
+^D
+</pre>
+
+<p>(4) Make the script executable and run it on the file -- make sure
+it returns 0.  Optionally turn off the redirection to /dev/null
+temporarily to check the error message that is being found by the
+grep.
+<pre>
+% chmod +x test1.sh
+% ./test1.sh foo.i ; echo $?
+0
+</pre>
+
+<p>(5) Run multidelta with the script on the file several times at, say, levels 0 0 1 1 2 2 10.
+<pre>
+% multidelta -level=0 ./test1.sh foo.ii
+(check email)
+% multidelta -level=0 ./test1.sh foo.ii
+(read slashdot)
+% multidelta -level=1 ./test1.sh foo.ii
+% multidelta -level=1 ./test1.sh foo.ii
+% multidelta -level=2 ./test1.sh foo.ii
+% multidelta -level=2 ./test1.sh foo.ii
+% multidelta -level=10 ./test1.sh foo.ii
+% multidelta -level=10 ./test1.sh foo.ii
+</pre>
+
+<p>(6) The input file will be modified in place and you should be left with something smaller.
+<pre>
+[simon@otter][deltaexample]$ ls -l
+total 116
+-rw-r--r--  1 simon simon  8451 Sep 12 17:10 foo.ii
+-rw-r--r--  1 simon simon  8948 Sep 12 17:10 foo.ii.bak
+-rw-r--r--  1 simon simon  8451 Sep 12 17:10 foo.ii.ok
+-rw-r--r--  1 simon simon 57739 Sep 12 17:10 log
+-rw-r--r--  1 simon simon  2752 Sep 12 17:10 multidelta.log
+dr-xr-xr-x  2 simon simon  4096 Sep 12 17:16 orig/
+-rwxr-xr-x  1 simon simon   385 Sep 12 16:36 test1.sh*
+-rw-r--r--  1 simon simon    11 Sep 12 16:02 test1.sh~
+
+[simon@otter][deltaexample]$ ls -l orig/
+total 552
+-r--r--r--  1 simon simon 558970 Sep 12 16:00 foo.ii
+</pre>
+
+<p>(7) Hack on foo.ii by hand, re-running test1.sh each time to check it
+is still "interesting".  Sometimes it helps to hack on foo.ii a little
+to get delta unstuck and then rerun delta again.  You might want to
+run indent as well whenever you stop to look at foo.ii as topformflat
+makes a mess.
+
+<p>Final file:
+<pre>
+class A {};
+int main() {
+  const A *val;
+  val->~A ();
+}
+</pre>
+
+<P>Note that the original file was about 560 KB!
+
+<h2>&nbsp;</h2>
 
 </body>
 </html>
