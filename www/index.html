@@ -81,6 +81,8 @@ accurate for delta to do well.
 <p>Note that this example is edited for simplicity from the raw
 output; we sincerely hope we did not introduce any bugs.
 
+<h3>Setup</h3>
+
 <p>(1) Make a new directory and copy the file there.
 <pre>
 % mkdir deltaexample
@@ -95,6 +97,8 @@ output; we sincerely hope we did not introduce any bugs.
 % cp foo.i orig/
 % chmod -R a-w orig
 </pre>
+
+<h3>Define interestingness</h3>
 
 <p>(3) Write a script (do not call it 'test' as that is a system
 utility program) to test the interestingness of the file, as we do
@@ -135,6 +139,8 @@ grep.
 0
 </pre>
 
+<h3>Minimize automatically</h3>
+
 <p>(5) Run multidelta with the script on the file several times at, say, levels 0 0 1 1 2 2 10.
 <pre>
 % multidelta -level=0 ./test1.sh foo.ii
@@ -166,6 +172,8 @@ dr-xr-xr-x  2 simon simon  4096 Sep 12 17:16 orig/
 total 552
 -r--r--r--  1 simon simon 558970 Sep 12 16:00 foo.ii
 </pre>
+
+<h3>Minimize further by hand</h3>
 
 <p>(7) Hack on foo.ii by hand, re-running test1.sh each time to check it
 is still "interesting".  Sometimes it helps to hack on foo.ii a little
