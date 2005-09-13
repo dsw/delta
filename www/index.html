@@ -83,7 +83,7 @@ output; we sincerely hope we did not introduce any bugs.
 
 <h3>Setup</h3>
 
-<p>(1) Make a new directory and copy the file there.
+<p>(1) Make a new directory and copy the file to be minimized there.
 <pre>
 % mkdir deltaexample
 % cd deltaexample/
@@ -94,7 +94,7 @@ output; we sincerely hope we did not introduce any bugs.
 <p>(2) (optional) Put a read-only backup copy of the file in, say, orig/ .
 <pre>
 % mkdir orig
-% cp foo.i orig/
+% cp foo.ii orig/
 % chmod -R a-w orig
 </pre>
 
@@ -135,7 +135,7 @@ temporarily to check the error message that is being found by the
 grep.
 <pre>
 % chmod +x test1.sh
-% ./test1.sh foo.i ; echo $?
+% ./test1.sh foo.ii ; echo $?
 0
 </pre>
 
