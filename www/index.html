@@ -49,34 +49,37 @@ input file to a program that reads programs, much as a compiler does.
 Note two features of file minimization that are present in the
 example.
 
-<p><b>Do a controlled experiment.</b> Below we don't just minimize a file
-that causes Oink to produce an error message, we minimize a file that
-causes gcc to accept AND oink to reject in a specific way.  That is,
-the test delta does is a controlled experiment, where gcc is the
-control.  Ignoring this aspect of the problem seems to be a frequent
-mistake of first time users.
+<h3>Do a controlled experiment.</h3>
 
-<p><b>Exploit nested structure.</b>  One may minimize files of simpler
-syntax than C++ but really all files are interesting in the first
-place because they are in some language or another.  Some simple
-configuration files are literally just a list of lines but most
-languages have some nested structure.  Multidelta filters the input
-through the topformflat utility (included) to suppress any newlines
-past a particular nesting depth; this "explains" the nesting structure
-to the otherwise line-oriented delta utility (a brilliantly simple
-idea of Scott McPeak's).  If your input file language has no nesting
-structure, you can hack on multidelta to remove the filtration
-through topformflat or just use the raw delta program.  If your
-language has a different nesting structure than C/C++, you can write
-your own multidelta and substitute it.  A simple flex program should
-suffice; it need not be terribly accurate for delta to do well.
+<p>Below we don't just minimize a file that causes Oink to produce an
+error message, we minimize a file that causes gcc to accept AND oink
+to reject in a specific way.  That is, the test delta does is a
+controlled experiment, where gcc is the control.  Ignoring this aspect
+of the problem seems to be a frequent mistake of first time users.
 
-<p>Note also that this example is edited for simplicity from the raw
-output; we sincerely hope we did not introduce any bugs.
+<h3>Exploit nested structure.</h3>
 
-<h3>Example use of delta</h3>
+<p>One may minimize files of simpler syntax than C++ but really all
+files are interesting in the first place because they are in some
+language or another.  Some simple configuration files are literally
+just a list of lines but most languages have some nested structure.
+Multidelta filters the input through the topformflat utility
+(included) to suppress any newlines past a particular nesting depth;
+this "explains" the nesting structure to the otherwise line-oriented
+delta utility (a brilliantly simple idea of Scott McPeak's).  If your
+input file language has no nesting structure, you can hack on
+multidelta to remove the filtration through topformflat or just use
+the raw delta program.  If your language has a different nesting
+structure than C/C++, you can write your own multidelta and substitute
+it.  A simple flex program should suffice; it need not be terribly
+accurate for delta to do well.
+
+<h2>Example use of delta</h2>
 
 <p>Simon Goldsmith 8 April / 12 Sept, 2005.
+
+<p>Note that this example is edited for simplicity from the raw
+output; we sincerely hope we did not introduce any bugs.
 
 <p>(1) Make a new directory and copy the file there.
 <pre>
