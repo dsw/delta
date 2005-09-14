@@ -74,6 +74,40 @@ structure than C/C++, you can write your own multidelta and substitute
 it.  A simple flex program should suffice; it need not be terribly
 accurate for delta to do well.
 
+<h2>Endorsements</h2>
+
+<pre>
+Subject: Thanks for Delta
+   Date: Thu, 21 Jul 2005 21:13:20 -0700
+   From: Flash Sheridan <flash@pobox.com>
+     To: dsw@cs.berkeley.edu (Daniel Wilkerson)
+</pre>
+
+<p>This is just a quick thank-you note for Delta.  Andrew Pinski
+pointed me towards it after filing a GCC bug with a very long source
+file; it immediately reduced a different bug file from 16K lines to
+ten (GCC bug 22604).  Oddly enough, it initially found a different bug
+(22603), since I'd only specified "internal compiler error", not
+"segmentation fault".  I might not have been able to file either of
+these bugs without Delta, since the code was proprietary, but the two
+Delta-reduced files were small enough to make public.
+
+<pre>
+Subject: Re: Thanks for Delta
+   Date: Tue, 13 Sep 2005 10:56:10 -0700
+   From: Flash Sheridan <flash@pobox.com>
+     To: "Daniel S. Wilkerson" <dsw@cs.berkeley.edu>
+</pre>
+
+<p>Delta has become even more valuable since my initial thank-you
+note.  I'm not sure it's helped with all of the GCC bugs I've been
+filing (I've been tracking them at
+<http://pobox.com/~flash/FlashsOpenSourceBugReports.html>), but I
+couldn't have filed most of them without Delta.  Typically I find a
+bug when GCC is compiling a large, confidential file, which I couldn't
+post to Bugzilla.  Delta has always been able to find a radically
+smaller file, which I have been able to attach to my bug report.
+
 <h2>Example use of delta</h2>
 
 <p>Simon Goldsmith 8 April / 12 Sept, 2005.
