@@ -4,24 +4,27 @@
 </head>
 <body bgcolor=white>
 
+<p><b>Maintainer:</b> <a href=http://www.cs.berkeley.edu/~dsw/>Daniel S. Wilkerson</a>
+<br><b>Developers:</b> <a href="http://www.cs.berkeley.edu/~smcpeak/">Scott McPeak</a>
+
 <p><b>Summary:</b> Delta assists you in minimizing "interesting" files
 subject to a test of their interestingness.  A common such situation
 is when attempting to isolate a small failure-inducing substring of a
-large input that causes your program to exhibit a bug.  Our
-implementation is based on the Delta Debugging algorithm found here:
-<a
-href=http://www.st.cs.uni-sb.de/dd/>http://www.st.cs.uni-sb.de/dd/</a>
+large input that causes your program to exhibit a bug.
 
-<p><b>Maintainer:</b> Daniel S. Wilkerson
-<br><b>Developers:</b> <a href="http://www.cs.berkeley.edu/~smcpeak/">Scott McPeak</a>
+<p>Our implementation is based on the <a
+href=http://www.st.cs.uni-sb.de/dd/>Delta Debugging algorithm</a>.  <a
+href=http://www.whyprogramsfail.com/>Andreas</a> wrote a book <a
+href=http://www.whyprogramsfail.com/>"Why Programs Fail"</a> about
+debugging programs.
 
-<p>This work was supported by professors
-<a href=http://theory.stanford.edu/~aiken/>Alex Aiken</a>
-and <a href=http://www.cs.berkeley.edu/~necula/>George Necula</a>
-and was done at UC Berkeley.
+<p>This work was supported by professors <a
+href=http://theory.stanford.edu/~aiken/>Alex Aiken</a> and <a
+href=http://www.cs.berkeley.edu/~necula/>George Necula</a> and was
+done at UC Berkeley.
 
-<p>Here are the current releases.  Feel free to just get the current
-Subversion repository version as a guest user.
+<p><b>Releases:</b> Feel free to just get the current Subversion
+repository version as a guest user.
 
 <ul>
 
@@ -39,10 +42,11 @@ retired.
 
 <h2>Introduction</h2>
 
-<p>The best way to understand how to use delta is with an example of its
-usage.  Below is one helpfully written up for me by Simon Goldsmith.
-For those wanting more, I also wrote a more detailed document
-describing each tool: <a href=using_delta.html>Using Delta</a>.
+<p>The best way to understand how to use delta is with an example of
+its usage.  <a href=#example>Below is one example</a> helpfully
+written up for me by Simon Goldsmith; read it first.  For those
+wanting more, I also wrote a more detailed document describing each
+tool: <a href=using_delta.html>Using Delta</a>.
 
 <p>Note that what follows is an example of using delta to minimize an
 input file to a program that reads programs, much as a compiler does.
@@ -81,34 +85,73 @@ Subject: Thanks for Delta
    Date: Thu, 21 Jul 2005 21:13:20 -0700
    From: Flash Sheridan
      To: Daniel S. Wilkerson
-</pre>
 
-<p>This is just a quick thank-you note for Delta.  Andrew Pinski
-pointed me towards it after filing a GCC bug with a very long source
-file; it immediately reduced a different bug file from 16K lines to
-ten (GCC bug 22604).  Oddly enough, it initially found a different bug
-(22603), since I'd only specified "internal compiler error", not
-"segmentation fault".  I might not have been able to file either of
-these bugs without Delta, since the code was proprietary, but the two
+This is just a quick thank-you note for Delta.  Andrew Pinski pointed
+me towards it after filing a GCC bug with a very long source file; it
+immediately reduced a different bug file from 16K lines to ten (GCC
+bug 22604).  Oddly enough, it initially found a different bug (22603),
+since I'd only specified "internal compiler error", not "segmentation
+fault".  I might not have been able to file either of these bugs
+without Delta, since the code was proprietary, but the two
 Delta-reduced files were small enough to make public.
 
-<pre>
+<hr align=left width=10%>
 Subject: Re: Thanks for Delta
    Date: Tue, 13 Sep 2005 10:56:10 -0700
    From: Flash Sheridan
      To: Daniel S. Wilkerson
-</pre>
 
-<p>Delta has become even more valuable since my initial thank-you
-note.  I'm not sure it's helped with all of the GCC bugs I've been
-filing (I've been tracking them at
+Delta has become even more valuable since my initial thank-you note.
+I'm not sure it's helped with all of the GCC bugs I've been filing
+(I've been tracking them at
 http://pobox.com/~flash/FlashsOpenSourceBugReports.html), but I
 couldn't have filed most of them without Delta.  Typically I find a
 bug when GCC is compiling a large, confidential file, which I couldn't
 post to Bugzilla.  Delta has always been able to find a radically
 smaller file, which I have been able to attach to my bug report.
 
+<hr align=left width=10%>
+Date: Sun, 23 Oct 2005 22:01:42 +0200 (CEST)
+From: Richard Guenther
+  To: Daniel S. Wilkerson
+
+> > > Thanks for your interest in Delta.  I would be interested to
+> > > hear more about what you are doing with it.  If it is something
+> > > I can put in the endoresements section ("Delta saved my
+> > > daugher's life!") that would be great.
+> >
+> > Well, delta is saving a lot of gcc developers life ;) I would
+> > guess 1 of 3 bugs sumitted to the gcc bugzilla get their testcase
+> > reduced using delta.
+> 
+> Holy moly!  Can I quote that publicly such as on my web page?
+
+Yes - a little bit more accurate would be to say we're using delta to
+reduce all testcases from the gcc bugzilla in case they get entered
+unreduced.
+</pre>
+
+<hr align=left width=10%>
+
+<p>Delta has been taught to the students at <a
+href=http://www-inst.eecs.berkeley.edu/~cs169/fa05/index.shtml>Cal
+Berkeley (CS169)</a> and <a
+href=http://www.stanford.edu/class/cs295/>Stanford (CS295)</a> in
+software engineering classes.
+
+<pre>
+Subject: Re: use of delta in your class
+   Date: Mon, 24 Oct 2005 13:57:22 -0700
+   From: Alex Aiken
+     To: Daniel S. Wilkerson
+
+Yes, I gave them a homework assignment for CS295 using delta.  Feedback 
+was positive but unquantified.
+</pre>
+
+<a name=example>
 <h2>Example use of delta</h2>
+</a>
 
 <p>Simon Goldsmith 8 April / 12 Sept, 2005.
 
