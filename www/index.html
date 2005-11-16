@@ -182,7 +182,7 @@ output; we sincerely hope we did not introduce any bugs.
 <pre>
 % mkdir deltaexample
 % cd deltaexample/
-% cp ../nsCSSDataBlock/orig/nsCSSDataBlock-23801-1112390043.cpp.g.ii ./foo.ii
+% cp ../nsCSSDataBlock-23801-1112390043.cpp.g.ii ./foo.ii
 % chmod +w foo.ii
 </pre>
 
@@ -221,7 +221,8 @@ OINK=/home/simon/oink_all/oink/oink
 GCC=/usr/bin/gcc
 
 $GCC -c $FILE -o /dev/null &> /dev/null && $OINK $FILE | \
-  grep 'error: cannot convert argument type .class .* const &. to receiver parameter type' \
+  grep 'error: cannot convert argument type .class .* const &. ' \
+  'to receiver parameter type' \
   &> /dev/null
 ^D
 </pre>
