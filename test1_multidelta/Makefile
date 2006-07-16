@@ -6,4 +6,4 @@ check:
 	./testit
 
 clean:
-	rm -f *.ok *.bak file[12].txt log *.log
+	rm -f *.ok *.bak file[12].txt log *.log DELTA-STOP

@@ -78,7 +78,7 @@ your grep, as I have here, is recommended.
 
 <p>Note that delta passes the name of the file to your script, so you can
 use it, as I have here; however when testing multiple files, perhaps
-it is best to use the Multidelta style and just hardcode in the
+it is best to use the Multidelta style and just hard-code in the
 filenames.  Multidelta minimizes in-place, which makes passing in the
 name unnecessary.
 
@@ -237,10 +237,32 @@ the script is run.
 
 <pre>
 Options:
-  -level=n       When topformflattening, flatten to level n [0]
+  -level=n       When topformflattening, flatten to level n [$level].
   -u             Undo the last invocation, by copying the *.bak files
-                 onto the original copies.
+                   onto the original copies.
+  -cpp           Before flattening run through the cpp preprocessor.
 </pre>
+
+<h2>Stopping</h2>
+
+<p>A new feature of delta and multidelta is that it is possible to
+stop it!
+
+<p>Delta now both distinguishes between a signal and a non-zero result
+code from the tests script, halting altogether in the case of a
+signal.  Multidelta has always stopped if delta returns anything other
+than zero and still does.  The consequence of this is that you can
+just type control-C at the terminal and everything should stop
+immediately.  However, not sure what state the partially minimized
+file will be left in; for a safe way to stop, see the next paragraph.
+Thanks to Scott McPeak for pointing out how easy this was to do.
+
+<p>Delta has always stopped if a file DELTA-STOP appears in the
+current directory, however for some unexplained reason, I only checked
+for this when it increased the granularity of the search.  Now it
+checks at every run of the external script.  If DELTA-STOP comes into
+existence, delta and multidelta should stop before obliterating the
+current version of the file to be tested.
 
 <h2>Notes</h2>
 

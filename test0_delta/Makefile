@@ -26,7 +26,7 @@ check: clean
 
 .PHONY: clean
 clean:;
-	rm -f core a.out minimal_test.c hello *.o
+	rm -f core a.out minimal_test.c hello DELTA-STOP *.o
 	rm -rf tmp*
 
 # Build hello to see it run and check its return value.

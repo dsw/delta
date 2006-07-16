@@ -11,14 +11,14 @@ cp file1.start.txt file1.txt
 cp file2.start.txt file2.txt
 
 # run multidelta
-../multidelta -level=3 ./trivtest file1.txt file2.txt
+../multidelta -cpp -level=3 ./trivtest file1.txt file2.txt
 
 # compare to expected output
 diff file1.end.txt file1.txt
 diff file2.end.txt file2.txt
 
 # check that -u works
-../multidelta -u ./trivtest file1.txt file2.txt
+../multidelta -cpp -u ./trivtest file1.txt file2.txt
 
 # compare to original input
 diff file1.start.txt file1.txt

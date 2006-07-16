@@ -19,6 +19,7 @@ $log            = "multidelta.log";
 
 $level          = 0;
 $undo           = 0;
+$cpp            = 0;            # bool: use the cpp preprocessor?
 
 if (@ARGV == 0) {
   print(<<"EOF");
@@ -43,9 +44,10 @@ always set to a space-separated list of the filenames no matter how
 the script is run.
 
 Options:
-  -level=n       When topformflattening, flatten to level n [$level]
+  -level=n       When topformflattening, flatten to level n [$level].
   -u             Undo the last invocation, by copying the *.bak files
-                 onto the original copies.
+                   onto the original copies.
+  -cpp           Before flattening run through the cpp preprocessor.
 
 EOF
   exit(0);
@@ -60,6 +62,9 @@ while ($ARGV[0] =~ m"^-") {
   }
   elsif ($ARGV[0] eq "-u") {
     $undo = 1;
+  }
+  elsif ($ARGV[0] eq "-cpp") {
+    $cpp = 1;
   }
   else {
     die ("unknown option: $ARGV[0]\n");
@@ -90,7 +95,7 @@ if ($undo) {
 
 
 diagnostic("verify the script passes now");
-if (system($script) != 0) {
+if (simpleRun($script) != 0) {
   die "Initial test fails\n";
 }
 
@@ -101,24 +106,33 @@ for $fn (@files) {
   diagnostic("making a backup copy of $fn");
   run("cp -f $fn ${fn}.bak");
 
-  # -P: don't emit #line directives
-  diagnostic("preprocessing and flattening $fn");
-  run("cpp -P ${fn}.bak | $topformflat $level >$fn");
+  if ($cpp) {
+      diagnostic("preprocessing and flattening $fn");
+      # -P: don't emit #line directives
+      run("cpp -P ${fn}.bak | $topformflat $level >$fn");
+  } else {
+      diagnostic("flattening $fn");
+      run("$topformflat $level >$fn");
+  }
 }
 
 diagnostic("verify still passes script");
-if (system($script) != 0) {
-  die "Test fails after applying cpp and topformflat\n";
+if (simpleRun($script) != 0) {
+  $actions = "topformflat";
+  if ($cpp) {
+    $actions = "cpp and " . $actions;
+  }
+  die "Test fails after $actions\n";
 }
 
 # one by one, apply delta
 for $fn (@files) {
   diagnostic("applying delta to $fn");
   run("$delta -in_place -test=$script $fn");
-  
+
   if (-f "DELTA-STOP") {
     diagnostic("Stopping because DELTA-STOP exists");
-    exit(0);
+    exit 1;
   }
 }
 
@@ -135,10 +149,21 @@ sub diagnostic {
   close (LOG);
 }
 
+sub simpleRun {
+  my $ret = system(@_);
+  # from perldoc -f system
+  my $signal = $ret & 127;
+  my $exitValue = $ret >> 8;
+  if ($signal) {
+    die "$0 exiting due to signal $signal\n";
+  }
+  return $exitValue;
+}
 
 sub run {
   diagnostic(@_);
-  if (system(@_) != 0) {
-    die "failed: " . join(' ', @_) . "\n";
+  my $exitValue = simpleRun(@_);
+  if ($exitValue) {
+    die "stopping because delta exited with exit value $exitValue: " . join(' ', @_) . "\n";
   }
 }

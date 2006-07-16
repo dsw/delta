@@ -102,6 +102,11 @@ sub output(@) {
 
 # Return true if the current_markers pass the interesting test.
 sub test {
+    if (-f "DELTA-STOP") {
+        output "Stopping because DELTA-STOP file exists\n";
+        exit 1;
+    }
+
     my $cached_result = $test_cache{$mark_signature};
     if (defined $cached_result) {
         output "\tcached\n";
@@ -109,8 +114,8 @@ sub test {
     }
 
     render_tmpinput();
-    
-    my $result;
+
+    my $ret;
     my $input;
     if (!$in_place) {
       output " $tmpinput";
@@ -120,14 +125,23 @@ sub test {
       my $arena_input = "input$suffix";
       link $input, "$arena/$arena_input";
       # $test gets fully qualified in parse_command_line()
-      $result = ! system "cd $arena; $test $arena_input";
+      $ret = system "cd $arena; $test $arena_input";
     }
     else {
       # for in_place, the test program is free to ignore the argument
       # (since it will be known ahead of time) but I'll pass it anyway
-      $result = ! system "$test $start_file";
+      $ret = system "$test $start_file";
       $input = $start_file;
     }
+
+    # from perldoc -f system
+    my $signal = $ret & 127;
+    my $exitValue = $ret >> 8;
+
+    if ($signal) {
+        die "$0 exiting due to signal $signal\n";
+    }
+    my $result = ! $exitValue;
 
     # Keep around info only for successful runs.
     if ($result) {
@@ -140,7 +154,7 @@ sub test {
         else {
           # make a single copy of the latest successful file
           $last_successful_tmpinput = "${start_file}.ok";
-          system("cp ${start_file} $last_successful_tmpinput");
+          die "cp failed" if system("cp ${start_file} $last_successful_tmpinput");
         }
     } else {
         output "\n";
@@ -349,12 +363,6 @@ sub dump_markers {
 
 sub increase_granularity {
   output "\nIncrease granularity\n";
-  
-  if (-f "DELTA-STOP") {
-    output "Stopping because DELTA-STOP file exists\n";
-    return 0;
-  }
-
   output "Before ";
   dump_markers();
   my @newmarkers = ();
@@ -429,7 +437,7 @@ sub done {
         die "cp failed" if system "cp ${tmpdir}/${last_successful_tmpinput} $cp_minimal";
     }
     if ($in_place) {
-        system("cp $last_successful_tmpinput $start_file");
+        die "cp failed" if system("cp $last_successful_tmpinput $start_file");
     }
     log_msg_time("delta done");
     exit 0;

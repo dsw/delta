@@ -23,7 +23,7 @@ dist:
 	tar cvzf $(DIR).tar.gz $(DIR)
 	chmod 444 $(DIR).tar.gz
 
-distclean:
+distclean: clean
 	rm -rf $(DIR)
 	rm -f *.tar.gz
 	$(MAKE) -f Build.mk distclean
