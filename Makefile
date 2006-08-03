@@ -1,7 +1,7 @@
 # see License.txt for copyright and terms of use
 
 REPOSITORY := http://delta.tigris.org/svn/delta/trunk
-VERSION := 2006.07.15
+VERSION := 2006.08.03
 DIR := delta-$(VERSION)
 
 .SUFFIXES:

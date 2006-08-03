@@ -1,6 +1,6 @@
 # see License.txt for copyright and terms of use
 
-DIRS := test0_delta test1_multidelta
+DIRS := test0_delta test1_multidelta test2_multidelta
 .SUFFIXES:
 .PHONY: check clean
 

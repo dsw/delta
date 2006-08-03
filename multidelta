@@ -112,7 +112,7 @@ for $fn (@files) {
       run("cpp -P ${fn}.bak | $topformflat $level >$fn");
   } else {
       diagnostic("flattening $fn");
-      run("$topformflat $level >$fn");
+      run("$topformflat $level <${fn}.bak >$fn");
   }
 }
 
