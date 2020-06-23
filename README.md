@@ -72,7 +72,7 @@ The best way to understand how to use delta is with an example of its
 usage. [Below is one example](#example) helpfully written up for me by
 Simon Goldsmith; read it first. For those wanting more, I also wrote a
 more detailed and harder to read document describing each tool: [Using
-Delta](www/using_delta.html).
+Delta](README_using_delta.md).
 
 Note that what follows is an example of using delta to minimize an input
 file to a program that reads programs, much as a compiler does. Note two
