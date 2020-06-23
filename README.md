@@ -100,7 +100,7 @@ nesting structure, you can hack on multidelta to remove the filtration
 through topformflat or just use the raw delta program. If your language
 has a different nesting structure than C/C++, you can write your own
 multidelta and substitute it. A simple flex program should suffice; it
-need not be terribly accurate for delta to do well. []{#example}
+need not be terribly accurate for delta to do well.
 
 An example
 ----------
