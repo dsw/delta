@@ -23,6 +23,9 @@ Berkeley.
 
 Feel free to just get the current git repository version.
 
+-   *[release-2020-06-22](https://github.com/dsw/delta/releases/tag/release-2020-06-22)*:
+      shasum -a 256 -p release-2020-06-22.tar.gz
+      ea8a1dc3a97e21ff09f8c70f6b1f544b17674cc85000d5d79a91e73a662c2e7a ?release-2020-06-22.tar.gz
 -   *delta-2006.08.03.tar.gz*:
       md5: ` 7be4ac4ae9c1eb01ccf29d413d4cc64a` This release is retired.
 -   *delta-2006.07.15.tar.gz*:
