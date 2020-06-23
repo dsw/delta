@@ -21,18 +21,14 @@ Berkeley.
 
 ### Releases
 
-Feel free to just get the current Subversion repository version as a
-guest user.
+Feel free to just get the current git repository version.
 
--   [delta-2006.08.03.tar.gz](http://delta.tigris.org/files/documents/3103/33566/delta-2006.08.03.tar.gz)
-      md5: ` 7be4ac4ae9c1eb01ccf29d413d4cc64a` This is the current
-    recommended release.
--   [delta-2006.07.15.tar.gz](http://delta.tigris.org/files/documents/3103/33236/delta-2006.07.15.tar.gz)
-      md5: ` 57afa6d4e7d15f380803e878c24678ed` This release had a
-    version that multidelta did not work without the -cpp flag.
--   [delta-2005.09.13.tar.gz](http://delta.tigris.org/files/documents/3103/25616/delta-2005.09.13.tar.gz)
-      md5: ` 588d65056ea48ae2a2ecee32598c5837` This version had a bug
-    that it was too hard to stop delta once it started.
+-   *delta-2006.08.03.tar.gz*:
+      md5: ` 7be4ac4ae9c1eb01ccf29d413d4cc64a` This release is retired.
+-   *delta-2006.07.15.tar.gz*:
+      md5: ` 57afa6d4e7d15f380803e878c24678ed` This release is retired.
+-   *delta-2005.09.13.tar.gz*
+      md5: ` 588d65056ea48ae2a2ecee32598c5837` This release is retired.
 -   The first release of Delta was on 14 July 2003. It is now retired.
 
 History
