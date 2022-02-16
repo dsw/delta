@@ -1,0 +1,25 @@
+# -*-sh-*-
+
+topformflat.c
+topformflat
+
+test0_delta/minimal_test.c
+test0_delta/tmp0/
+
+test1_multidelta/file1.txt
+test1_multidelta/file1.txt.bak
+test1_multidelta/file1.txt.ok
+test1_multidelta/file2.txt
+test1_multidelta/file2.txt.bak
+test1_multidelta/file2.txt.ok
+test1_multidelta/log
+test1_multidelta/multidelta.log
+
+test2_multidelta/file1.txt
+test2_multidelta/file1.txt.bak
+test2_multidelta/file1.txt.ok
+test2_multidelta/file2.txt
+test2_multidelta/file2.txt.bak
+test2_multidelta/file2.txt.ok
+test2_multidelta/log
+test2_multidelta/multidelta.log
